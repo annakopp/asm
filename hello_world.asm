@@ -1,7 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 section .data          ; Already initialized data
-  insertmesg     db  'Insert a number: '
-  outputmesg     db  'You have choosed: '
+  insertmesg     db  'Write a sentence: '
   vowels         db  'aeiou'
   timeval:
     tv_sec       dq 0
