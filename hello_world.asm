@@ -41,29 +41,28 @@ loop1:
     mov  rsi, rbx ; char of myvariable to print
 
     cmp byte [rsi], 'a' ; check if char is vowel a
-    je random_letter
+    je random_letter    ; jump to selecting a different vowel instead
     cmp byte [rsi], 'e' ; check if char is vowel e
-    je random_letter
+    je random_letter    ; jump to selecting a different vowel instead
     cmp byte [rsi], 'i' ; check if char is vowel i
-    je random_letter
+    je random_letter    ; jump to selecting a different vowel instead
     cmp byte [rsi], 'o' ; check if char is vowel o
-    je random_letter
+    je random_letter    ; jump to selecting a different vowel instead
     cmp byte [rsi], 'u' ; check if char is vowel u
-    je random_letter
-    jmp print_char
+    je random_letter    ; jump to selecting a different vowel instead
+    jmp print_char      ; if char is not a vowel, print it as is
   
 random_letter:
-    ;mov r12, rsi ; hold the address to the current char in r12
-    mov         rax, 0x2000074
-    mov         rdi, timeval
-    mov         rsi, 0          
+    mov   rax, 0x2000074     ; sys_time? (or something)
+    mov   rdi, timeval       ; pointer to time output
+    mov   rsi, 0 
     syscall
-    mov         rax, [rel tv_usec]
-    mov  rcx, 5 ; divide by 5
-    div rcx    ; rax/rcx => remainder in rdx (dl)
-    mov r12, vowels
-    add r12, rdx
-    mov rsi, r12
+    mov   rax, [rel tv_usec] ; get the microseconds from time output
+    mov   rcx, 5             ; set the divisor
+    div   rcx                ; rax/rcx => remainder in rdx (dl)
+    mov   r12, vowels        ; store address to vowels in r12
+    add   r12, rdx           ; add remainder (0 - 4) to vowel address to get a random vowel in the "list"
+    mov   rsi, r12           ; move the pointer to the new vowel to rsi to get ready for printing
 
 print_char:
     mov  rax, 0x02000004 ; sys_write
